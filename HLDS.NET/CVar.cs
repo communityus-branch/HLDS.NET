@@ -8,6 +8,8 @@ namespace HLDS.NET
 {
     class CVar
     {
+        public static CVar temp_cvar = new CVar();
+
         public enum Flags
         {
             FCVAR_ARCHIVE = 0,
@@ -46,11 +48,77 @@ namespace HLDS.NET
             //
         }
 
-
-        public static void DirectSet(CVar cvar, string _value) // TODO
+        public static ref CVar FindVar(string name)
         {
-            cvar.data = _value;
-            float.TryParse(_value, out cvar.value);
+            return ref temp_cvar;
+        }
+
+        public static ref CVar FindPrevVar(string name)
+        {
+            return ref temp_cvar;
+        }
+        
+        public static float VariableValue(string name)
+        {
+            return 0.0f;
+        }
+
+        public static int VariableInt(string name)
+        {
+            return 0;
+        }
+
+        public static string VariableString(string name)
+        {
+            return "";
+        }
+
+        public static void DirectSet(ref CVar cvar, string value)
+        {
+            //
+        }
+
+        public static void Set(string name, string value)
+        {
+            //
+        }
+
+        public static void SetValue(string name, float value)
+        {
+            //
+        }
+
+        public static void RegisterVariable(ref CVar cvar)
+        {
+            //
+        }
+
+        public static void RemoveHUDCVars()
+        {
+            //
+        }
+        
+        public static string IsMultipleTokens(string name)
+        {
+            return "";
+        }
+
+        public static bool Command()
+        {
+            return false;
+        }
+        
+        //public static void WriteVariables(F: TFile);
+        //public static void Cmd_CVarList; cdecl;
+        
+        public static uint CountServerVariables()
+        {
+            return 0;
+        }
+
+        public static void UnlinkExternals()
+        {
+            //
         }
     }
 }

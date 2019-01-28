@@ -12,14 +12,14 @@ namespace HLDS.NET
     {
         public static void Init() // done
         {
-            HLDS.HostInit = false;
+            Global.HostInit = false;
 
             InitArgs();
 
             if (COM.CheckParam("-dev") > 0)
             {
-                HLDS.developer.data = "1";
-                HLDS.developer.value = 1;
+                Global.developer.data = "1";
+                Global.developer.value = 1;
             }
 
             InitClock();
@@ -30,30 +30,20 @@ namespace HLDS.NET
             FileSystem.Init();
             Host.Init();
 
-            if (HLDS.HostInit)
+            if (Global.HostInit)
             {
                 NET.Config(true);
                 Host.InitializeGameDLL();
             }
         }
 
-        public static void InitClock()
-        {
-            //
-        }
-
         public static void Error(string text) // done
         {
-            MessageBox.Show("FATAL ERROR (shutting down): " + text, "Error", 
+            MessageBox.Show("FATAL ERROR (shutting down): " + text, "Error",
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
-        
-        public static void CheckOSVersion() // skip
-        {
-            //
-        }
 
-        public static void SetStartTime()
+        public static void CheckOSVersion() // skip
         {
             //
         }
@@ -72,11 +62,6 @@ namespace HLDS.NET
             //
         }
 
-        public static void ShutdownClock()
-        {
-            //
-        }
-
         public static void ShutdownArgs()
         {
             //
@@ -90,6 +75,29 @@ namespace HLDS.NET
         public static void DebugOutStraight(string text)
         {
             Console.WriteLine(text);
+        }
+
+
+        // SysClock.pas
+
+        public static void InitClock()
+        {
+            //
+        }
+
+        public static void ShutdownClock()
+        {
+            //
+        }
+
+        public static void SetStartTime()
+        {
+            //
+        }
+        
+        public static double FloatTime()
+        {
+            return 0.0;
         }
     }
 }

@@ -11,12 +11,9 @@ namespace HLDS.NET
         
         public static void Init()
         {
-            HLDS.RealTime = 0.0;
-        }
+            Global.RealTime = 0.0;
 
-        public static void InitializeGameDLL()
-        {
-            Rand.Init();
+            Trash.Rand_Init();
             CBuf.Init();
             Cmd.Init();
             CVar.Init();
@@ -36,28 +33,33 @@ namespace HLDS.NET
             SV.Init();
 
             string buf = "asdasd"; // TODO
-            CVar.DirectSet(HLDS.sv_version, buf);
+            CVar.DirectSet(Global.sv_version, buf);
 
             HPAK.CheckIntegrity("custom.hpk");
             CBuf.InsertText("exec valve.rc\n");
             Hunk.AllocName(0, "-HOST_HUNKLEVEL-");
-            HostHunkLevel = Hunk.LowMark;
+            Global.HostHunkLevel = Hunk.LowMark;
 
-            Active = 1;
-            NumFrames = 0;
+            Global.HostActive = 1;
+            Global.HostNumFrames = 0;
 
-            Times.Prev = Sys.FloatTime();
-            HLDS.HostInit = true;
+            Global.HostTimes.Prev = Sys.FloatTime();
+            Global.HostInit = true;
+        }
+
+        public static void InitializeGameDLL()
+        {
+            //
         }
 
         public static void Shutdown()
         {
-            if (HLDS.InHostShutdown)
+            if (Global.InHostShutdown)
                 Sys.DebugOutStraight("Host_Shutdown: Recursive shutdown.");
             else
             {
-                HLDS.InHostShutdown = true;
-                HLDS.HostInit = false;
+                Global.InHostShutdown = true;
+                Global.HostInit = false;
 
                 SV.ServerDeactivate();
 
@@ -84,7 +86,7 @@ namespace HLDS.NET
 
                 LPrint("Server shutdown\n");
                 Log.Close();
-                HLDS.RealTime = 0.0;
+                Global.RealTime = 0.0;
                 SV.Time = 0.0;
             }
         }
@@ -99,36 +101,36 @@ namespace HLDS.NET
             int Count = 0;
             bool profile = false;
 
-            if (HLDS.QuitCommandIssued)
+            if (Global.QuitCommandIssued)
                 result = false;
             else
             {
-                profile = HLDS.host_profile.value != 0;
+                profile = Global.host_profile.value != 0;
                 if (!profile)
                 {
-                    Host._Frame(HLDS.HostTimes.Frame);
-                    if (HLDS.HostStateInfo != 0)
+                    Host._Frame(Global.HostTimes.Frame);
+                    if (Global.HostStateInfo != 0)
                     {
-                        HLDS.HostStateInfo = 0;
+                        Global.HostStateInfo = 0;
                         CBuf.Execute();
                     }
                 }
                 else
                 {
                     TimeStart = Sys.FloatTime();
-                    Host._Frame(HLDS.HostTimes.Frame);
+                    Host._Frame(Global.HostTimes.Frame);
                     TimeEnd = Sys.FloatTime();
 
-                    if (HLDS.HostStateInfo != 0)
+                    if (Global.HostStateInfo != 0)
                     {
-                        HLDS.HostStateInfo = 0;
+                        Global.HostStateInfo = 0;
                         CBuf.Execute();
                     }
 
-                    HLDS.TimeCount += 1;
-                    HLDS.TimeTotal = HLDS.TimeTotal + TimeEnd - TimeStart;
+                    Global.TimeCount += 1;
+                    Global.TimeTotal = Global.TimeTotal + TimeEnd - TimeStart;
 
-                    if (HLDS.TimeCount >= 1000)
+                    if (Global.TimeCount >= 1000)
                     {
                         Count = 0;
                         for (int i = 0; i < SVS.MaxClients; i++)
@@ -139,8 +141,8 @@ namespace HLDS.NET
 
                         Print("host_profile: bla bla bla"); // TODO
 
-                        HLDS.TimeTotal = 0;
-                        HLDS.TimeCount = 0;
+                        Global.TimeTotal = 0;
+                        Global.TimeCount = 0;
                     }
                 }
             }

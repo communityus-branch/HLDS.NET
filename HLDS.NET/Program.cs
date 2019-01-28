@@ -8,14 +8,6 @@ namespace HLDS.NET
 {
     class HLDS
     {
-        public static bool ShutdownCalled = false;
-        public static bool HostInit = false;
-        public static double RealTime = 0.0;
-        public static bool InHostShutdown = false;
-
-        public static CVar developer = new CVar("developer", "0");
-        public static CVar sv_version = new CVar("sv_version", "", CVar.Flags.FCVAR_SERVER);
-
         static void Start()
         {
             Sys.Init();
@@ -28,9 +20,9 @@ namespace HLDS.NET
 
         static void Shutdown()
         {
-            if (!ShutdownCalled)
+            if (!Global.ShutdownCalled)
             {
-                ShutdownCalled = true;
+                Global.ShutdownCalled = true;
                 Sys.Shutdown();
             }
         }
