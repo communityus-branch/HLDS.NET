@@ -11,14 +11,41 @@ namespace HLDS.NET
         public static int ArgCount = 0;
         public static string[] ArgList;
 
-        public static int CheckParam(string name)
+        // SysArgs.pas
+
+        public static uint CheckParm(string name)
         {
-            for (int i = 1; i < ArgCount; i++)
-            {
-                if (name == ArgList[i])
-                    return i;
-            }
             return 0;
+        }
+
+        public static string ParmByIndex(uint index)
+        {
+            return "";
+        }
+
+        public static string ParmValueByIndex(uint index)
+        {
+            return "";
+        }
+
+        public static string ParmValueByName(string name)
+        {
+            return "";
+        }
+
+        public static uint GetParmCount()
+        {
+            return 0;
+        }
+
+        public static string GetLocalDir()
+        {
+            return "";
+        }
+
+        public static bool ParmInBounds(uint index)
+        {
+            return false;
         }
     }
 }

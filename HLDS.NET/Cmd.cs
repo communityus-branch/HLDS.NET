@@ -40,7 +40,7 @@ namespace HLDS.NET
             return ref temp_cmd;
         }
 
-        //public static void AddCommand(string name, Func: TCmdFunction);
+        public static void AddCommand(string name, Action func) { }
         //public static void AddMAllocCommand(string name; Func: TCmdFunction; Flags: TCmdFlags);
         //public static void AddHUDCommand(Name: PLChar; Func: TCmdFunction);
         //public static void AddGameCommand(Name: PLChar; Func: TCmdFunction);
