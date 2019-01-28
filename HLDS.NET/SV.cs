@@ -73,7 +73,7 @@ namespace HLDS.NET
             Cmd.AddCommand("fullupdate", FullUpdate_F);
 
             // custom
-            Cmd.AddCommand("entcount", ED_Count);
+            Cmd.AddCommand("entcount", ED.Count_F);
 
             // Custom
             CVar.RegisterVariable(ref Global.sv_allow47p);
@@ -315,7 +315,52 @@ namespace HLDS.NET
             return false;
         }
 
-        public static void ReadPackets() { }
+        public static void ReadPackets()
+        {
+            while (NET.GetPacket(NetSrc.NS_SERVER))
+            {
+                if (SV.FilterPacket())
+                    SV.SendBan();
+                else
+                    //       if PInt32(NetMessage.Data) ^ = OUTOFBAND_TAG then
+                    //          SV.ConnectionlessPacket()
+                    //      else
+                    for (int i = 0; i < Global.SVS.MaxClients; i++)
+                    {
+                        Client C = null;
+                        //C := @SVS.Clients[I];
+                        if ((C.Active || C.Spawned || C.Connected) && NET.CompareAdr(Global.NetFrom, C.netchan.Addr))
+                        {
+                            if (Netchan.Process(ref C.netchan))
+                            {
+                                if ((Global.SVS.MaxClients == 1) || !C.Active || !C.Spawned || !C.SendInfo)
+                                    C.NeedUpdate = true;
+
+                                SV.ExecuteClientMessage(ref C);
+                                Global.GlobalVars.FrameTime = (float)Global.HostFrameTime;
+                            }
+
+                            if (Netchan.IncomingReady(C.netchan))
+                            {
+                                if (Netchan.CopyNormalFragments(ref C.netchan))
+                                {
+                                    MSG.BeginReading();
+                                    SV.ExecuteClientMessage(ref C);
+                                }
+
+                                if (Netchan.CopyFileFragments(ref C.netchan))
+                                {
+                                    //  Global.HostClient = C;
+                                    SV.ProcessFile(ref C, C.netchan.FileName);
+                                }
+                            }
+
+                            break;
+                        }
+                    }
+            }
+
+        }
 
 
         // SVMove.pas

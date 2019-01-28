@@ -311,8 +311,70 @@ namespace HLDS.NET
 
         //   OutOfBandIPF: TIPFilter;
 
-        //   GlobalVars: TGlobalVars;
-        //    MoveVars: TMoveVars;
+        public static class GlobalVars
+        {
+            public static float Time;
+            public static float FrameTime;
+            public static float ForceRetouch;
+            public static Int32 MapName;
+            public static Int32 StartSpot;
+            public static float Deathmatch;
+            public static float Coop;
+            public static float Teamplay;
+            public static float ServerFlags;
+            public static float FoundSecrets;
+            public static Vec3 Fwd;
+            public static Vec3 Up;
+            public static Vec3 Right;
+            public static float TraceAllSolid;
+            public static float TraceStartSolid;
+            public static float TraceFraction;
+            public static Vec3 TraceEndPos;
+            public static Vec3 TracePlaneNormal;
+            public static float TracePlaneDist;
+            //TraceEnt: PEdict;
+            public static float TraceInOpen;
+            public static float TraceInWater;
+            public static Int32 TraceHitGroup;
+            public static Int32 TraceFlags;
+            public static Int32 MsgEntity;
+            public static Int32 CDAudioTrack;
+            public static Int32 MaxClients;
+            public static Int32 MaxEntities;
+            public static string StringBase;
+            //  SaveData: Pointer;
+            public static Vec3 LandmarkOffset;
+        }
+
+        public static class MoveVars
+        {
+            public static float Gravity;
+            public static float StopSpeed;
+            public static float MaxSpeed;
+            public static float SpectatorMaxSpeed;
+            public static float Accelerate;
+            public static float AirAccelerate;
+            public static float WaterAccelerate;
+            public static float Friction;
+            public static float EdgeFriction;
+            public static float WaterFriction;
+            public static float EntGravity;
+            public static float Bounce;
+            public static float StepSize;
+            public static float MaxVelocity;
+            public static float ZMax;
+            public static float WaveHeight;
+            public static Int32 Footsteps;
+            public static string SkyName;
+            public static float RollAngle;
+            public static float RollSpeed;
+            public static float SkyColorR;
+            public static float SkyColorG;
+            public static float SkyColorB;
+            public static float SkyVecX;
+            public static float SkyVecY;
+            public static float SkyVecZ;
+        }
 
         //    HostClient: PClient;
         //   SVPlayer: PEdict;
@@ -388,6 +450,24 @@ namespace HLDS.NET
        // RedirectType: TRedirectType;
        // RedirectBuf: array[1..MAX_FRAGLEN - 7] of LChar;
         public static NetAdr RedirectTo;
+
+
+
+
+
+        // Network.pas
+
+        public static SizeBuf InMessage;
+        public static SizeBuf NetMessage;
+        public static NetAdr InFrom;
+        public static NetAdr NetFrom;
+        public static NetAdr LocalIP;
+
+        public static bool NoIP = false;
+ 
+        public static CVar clockwindow = new CVar("clockwindow", "0.5");
+
+        public static uint NetDrop = 0; // amount of dropped incoming packets
 
     }
 }
